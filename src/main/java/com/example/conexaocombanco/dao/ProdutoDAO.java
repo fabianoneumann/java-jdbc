@@ -1,7 +1,5 @@
 package com.example.conexaocombanco.dao;
 
-
-
 import com.example.conexaocombanco.factory.ConnectionFactory;
 import com.example.conexaocombanco.model.Produto;
 
@@ -11,17 +9,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProdutoDAO {
-
     private Connection connection;
 
+    //Método construtor utilizado para obter a conexão
+    // com o banco de dados por meio da fábrica de conexões
+    // e para criar a tabela produtos, caso não exista, para
+    // que possa ser manipulada com CRUD
     public ProdutoDAO() {
         this.connection = new ConnectionFactory().getConnection();
+        this.criaTabelaProduto();
+    }
+
+    //Método utilizado para criar a tabela, caso não exista
+    public void criaTabelaProduto() {
+        String sql = "CREATE TABLE IF NOT EXISTS produtos (" +
+                        "idProduto INT PRIMARY KEY AUTO_INCREMENT," +
+                        "nome VARCHAR(50) NOT NULL," +
+                        "preco DECIMAL(10,2)" +
+                     ");";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.execute();
+            stmt.close();
+
+            System.out.println("Tabela Produto criada com sucesso!");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void cadastraProduto(Produto p) {
-        String sql = "insert into produtos" +
-                " (idProduto, nomeProduto, preco) " +
-                "values (?,?,?)";
+        String sql = "INSERT INTO produtos" +
+                " (idProduto, nome, preco) " +
+                "VALUES (?,?,?)";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -35,11 +57,10 @@ public class ProdutoDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void listaProdutos() {
-        String sql = "select * from produtos";
+        String sql = "SELECT * FROM produtos";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -48,14 +69,13 @@ public class ProdutoDAO {
 
             while (produtos.next()) {
                 System.out.println(produtos.getInt("idProduto"));
-                System.out.println(produtos.getString("nomeProduto"));
+                System.out.println(produtos.getString("nome"));
                 System.out.println(produtos.getDouble("preco"));
                 System.out.println("---------------------");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void editarProduto(Produto p) {
@@ -65,5 +85,4 @@ public class ProdutoDAO {
     public void deletarProduto(Produto p) {
 
     }
-
 }

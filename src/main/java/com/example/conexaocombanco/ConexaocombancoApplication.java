@@ -20,16 +20,16 @@ public class ConexaocombancoApplication {
 
         ProdutoDAO pDAO = new ProdutoDAO();
 
-        System.out.println("Lista de produtos original");
-        pDAO.listaProdutos();
-
-        System.out.println("Cadastrando produto...");
-        pDAO.cadastraProduto(p);
-
-        System.out.println("Produto Playstation Cadastrado com sucesso");
-
-        System.out.println("Lista com Playstation inserido");
-        pDAO.listaProdutos();
+//        System.out.println("Lista de produtos original");
+//        pDAO.listaProdutos();
+//
+//        System.out.println("Cadastrando produto...");
+//        pDAO.cadastraProduto(p);
+//
+//        System.out.println("Produto Playstation Cadastrado com sucesso");
+//
+//        System.out.println("Lista com Playstation inserido");
+//        pDAO.listaProdutos();
 
 //        Connection c = new ConnectionFactory().getConnection();
 //        System.out.println("Conectou!");
